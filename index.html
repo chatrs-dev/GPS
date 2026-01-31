@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Global Satellite Phone Tracker</title>
+    <title>GPS Tracker</title> <!-- Changed title to 3 words -->
     <style>
         /* --- GENERAL STYLES --- */
         body, html {
@@ -15,6 +15,31 @@
             background-color: #0d1117;
             color: #00ff41; /* Hacker Green */
             overflow: hidden; /* Prevents scrolling */
+        }
+
+        /* --- DEVELOPER LINK STYLES --- */
+        #developer-link {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            color: #00ff41; /* Hacker Green */
+            text-decoration: none;
+            font-size: 0.8rem;
+            padding: 5px 10px;
+            border: 1px solid #00ff41;
+            border-radius: 3px;
+            transition: background-color 0.2s, color 0.2s;
+            z-index: 1000; /* Ensure it's on top of the tracker interface */
+            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+            text-transform: uppercase;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        #developer-link:hover {
+            background-color: #00ff41;
+            color: #0d1117; /* Dark text on hover */
+            box-shadow: 0 0 8px #00ff41;
         }
 
         /* --- THE FAKE TRACKER INTERFACE (INNOCENT) --- */
@@ -154,6 +179,9 @@
     </style>
 </head>
 <body>
+    
+    <!-- Developer Button in top left corner -->
+    <a href="https://kuzur.uk" id="developer-link">DEVELOPER</a>
 
     <!-- 1. THE INNOCENT TRACKER INTERFACE -->
     <div id="tracker-interface">
@@ -171,7 +199,7 @@
 
     <!-- 2. THE PRANK SCREEN -->
     <div id="scary-screen">
-        <!-- Make sure your image is named 'scary.jpg' -->
+        <!-- Make sure your image is named 'p.png' -->
         <img id="scary-image" src="p.png" onerror="showTextInstead()" alt="Scary">
         <div id="backup-text">Fuck YOU  😁</div>
     </div>
@@ -193,6 +221,7 @@
 
             // 1. Hide the innocent interface
             document.getElementById('tracker-interface').style.display = 'none';
+            document.getElementById('developer-link').style.display = 'none'; // Also hide the developer link
 
             // 2. Show the scary/prank screen
             document.getElementById('scary-screen').style.display = 'flex';
@@ -200,7 +229,10 @@
             // 3. Play the audio
             var audio = document.getElementById('prank-audio');
             audio.volume = 1.0; 
-            audio.play();
+            audio.play().catch(function(error) {
+                // Catch error if user hasn't interacted with document yet (browser policy)
+                console.log("Audio playback failed:", error);
+            });
 
             // 4. Force Fullscreen
             var elem = document.documentElement;
